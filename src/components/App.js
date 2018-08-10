@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 import '../style/less/App.less';
 import '../../node_modules/knacss/css/knacss.css';
 import LoginPage from "./LoginPage";
+import HomePage from "./HomePage";
 
 class App extends Component {
     constructor(props) {
@@ -14,12 +16,17 @@ class App extends Component {
 
     render() {
         return (
-           <div className="App">
-               <header className="App-header grid">
-                   <div className="App-title">Goulenn</div>
-               </header>
-               <LoginPage />
-           </div>
+            <Router>
+               <div className="App">
+                   <header className="App-header grid">
+                       <div className="App-title">Goulenn</div>
+                   </header>
+                   <Route exact path="/" render={() => (
+                       this.state.loggedIn ? (<HomePage/>) : (<Redirect to="/login"/>)
+                   )}/>
+                   <Route exact path="/login" component={LoginPage} />
+               </div>
+            </Router>
         );
     }
 }
