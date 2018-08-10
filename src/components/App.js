@@ -5,15 +5,27 @@ import '../../node_modules/knacss/css/knacss.css';
 import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 
+const BasicAuth = {
+  isAuthenticated: false,
+  login(cb){
+      this.isAuthenticated = true;
+      cb();
+  },
+  logout(cb){
+      this.isAuthenticated = false;
+      cb();
+  }
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+        BasicAuth.isAuthenticated === true
+            ? <Component {...props} />
+            : <Redirect to='/login' />
+    )} />
+);
+
 class App extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loggedIn: false
-        };
-    }
-
     render() {
         return (
             <Router>
@@ -21,9 +33,7 @@ class App extends Component {
                    <header className="App-header grid">
                        <div className="App-title">Goulenn</div>
                    </header>
-                   <Route exact path="/" render={() => (
-                       this.state.loggedIn ? (<HomePage/>) : (<Redirect to="/login"/>)
-                   )}/>
+                   <PrivateRoute exact path="/" component={HomePage}/>
                    <Route exact path="/login" component={LoginPage} />
                </div>
             </Router>
