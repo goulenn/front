@@ -21,7 +21,7 @@ class LoginForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        alert('coucou');
+        this.props.onLoggedIn();
     };
 
     render() {
