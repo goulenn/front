@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../style/css/App.css';
+import '../style/less/App.less';
 import '../../node_modules/knacss/css/knacss.css';
 import LoginPage from "./LoginPage";
 
